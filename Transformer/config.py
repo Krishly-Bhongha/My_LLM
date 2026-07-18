@@ -15,7 +15,7 @@ DATASET_DIR = TRANSFORMER_DIR / "Dataset"
 
 VOCAB_FILE = DATA_DIR / "vocab.json"
 
-TRAIN_IDS_FILE = DATASET_DIR / "train_ids.npy"
+TRAIN_IDS_FILE = DATASET_DIR / "train_ids.pt"
 
 
 # ============================================================
@@ -45,7 +45,7 @@ RANDOM_SEED = 42
 
 # Keep 0 on Windows initially.
 # Can increase later if data loading becomes a bottleneck.
-NUM_WORKERS = 0
+NUM_WORKERS = 2
 
 # Whether to discard the final incomplete batch
 DROP_LAST = False
@@ -56,8 +56,12 @@ DROP_LAST = False
 
 EMBEDDING_DIM = 128
 
-NUM_HEADS = 4
+NUM_HEADS = 1
 
-NUM_LAYERS = 4
+NUM_LAYERS = 2
 
 DROPOUT = 0.1
+
+DEVICE = "cuda"
+
+MAX_CONTEXT = 256

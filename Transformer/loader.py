@@ -1,6 +1,5 @@
 import json
 
-import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader, random_split
 
@@ -130,19 +129,8 @@ class ChatDataset(Dataset):
         start, end = self.sequences[index]
 
 
-        # Read the sequence from the NumPy array
+        # Read the sequence from the tensor
         sequence = self.token_ids[start:end]
-
-
-        # Convert NumPy integers to PyTorch long integers.
-        #
-        # nn.Embedding requires torch.long token IDs.
-
-        sequence = torch.tensor(
-            sequence,
-            dtype=torch.long
-        )
-
 
         # Input
         x = sequence[:-1]
@@ -255,12 +243,10 @@ def collate_batch(batch):
 
 def load_token_ids():
 
-    # mmap_mode avoids loading the entire dataset
-    # into RAM immediately.
-
-    token_ids = np.load(
+    token_ids = torch.load(
         TRAIN_IDS_FILE,
-        mmap_mode="r"
+        weights_only=True,
+        mmap=True
     )
 
     return token_ids

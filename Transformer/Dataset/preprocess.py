@@ -1,17 +1,16 @@
 import json
-import numpy as np
+import torch
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 
 DATA = ROOT / "Data"
-
 DATASET = ROOT / "Transformer" / "Dataset"
 
 VOCAB_FILE = DATA / "vocab.json"
 TOKENIZED_FILE = DATA / "tokenized_data.json"
 
-OUTPUT_FILE = DATASET / "train_ids.npy"
+OUTPUT_FILE = DATASET / "train_ids.pt"
 META_FILE = DATASET / "metadata.json"
 
 
@@ -26,25 +25,24 @@ def preprocess():
     ids = []
 
     for sentence in corpus:
-
         for token in sentence:
-
             ids.append(vocab[token])
 
-    ids = np.array(ids, dtype=np.uint16)
-
-    np.save(OUTPUT_FILE, ids)
+    # Store directly as a PyTorch tensor
+    ids = torch.tensor(ids, dtype=torch.long)
+    
+    torch.save(ids, OUTPUT_FILE)
 
     metadata = {
         "num_tokens": int(len(ids)),
         "vocab_size": len(vocab),
-        "dtype": "uint16"
+        "dtype": "long"
     }
 
     with open(META_FILE, "w", encoding="utf8") as f:
         json.dump(metadata, f, indent=4)
 
-    print("Saved train_ids.npy")
+    print("Saved train_ids.pt")
     print(f"Total Tokens : {len(ids)}")
     print(f"Vocabulary   : {len(vocab)}")
 

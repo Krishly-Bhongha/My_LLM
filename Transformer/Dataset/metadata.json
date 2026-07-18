@@ -1,5 +1,5 @@
 {
     "num_tokens": 249266,
     "vocab_size": 2692,
-    "dtype": "uint16"
+    "dtype": "long"
 }
