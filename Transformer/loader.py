@@ -3,7 +3,7 @@ import json
 import torch
 from torch.utils.data import Dataset, DataLoader, random_split
 
-from config import (
+from config_template import (
     VOCAB_FILE,
     TRAIN_IDS_FILE,
     BATCH_SIZE,
