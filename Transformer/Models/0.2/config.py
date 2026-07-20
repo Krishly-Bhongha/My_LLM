@@ -7,7 +7,7 @@ import json
 
 ROOT = Path(__file__).resolve().parent.parent
 
-DATASET_DIR = Path("Transformer") / "Dataset"
+DATASET_DIR = ROOT / "Dataset"
 
 METADATA_FILE = DATASET_DIR / "metadata.json"
 
