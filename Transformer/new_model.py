@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parent
 
 MODELS_DIR = ROOT / "Models"
 
-CONFIG_FILE = ROOT / "config.py"
+CONFIG_FILE = ROOT / "config_template.py"
 
 MODEL_TEMPLATE = """\
 import sys
