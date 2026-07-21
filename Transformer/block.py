@@ -48,13 +48,14 @@ class TransformerBlock(nn.Module):
         )
 
 
-    def forward(self, x):
+    def forward(self, x, attention_mask=None):
         # -------------------------------
         # Multi-Head Attention
         # -------------------------------
 
         x = x + self.attention(
-            self.norm1(x)
+            self.norm1(x),
+            attention_mask
         )
         # -------------------------------
         # Feed Forward Network

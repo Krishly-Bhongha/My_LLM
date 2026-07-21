@@ -62,7 +62,7 @@ class TransformerModel(nn.Module):
             bias=False
         )
 
-    def forward(self, x):
+    def forward(self, x, attention_mask=None):
 
         # --------------------------------------------
         # Token Embeddings
@@ -83,7 +83,10 @@ class TransformerModel(nn.Module):
 
         for block in self.blocks:
 
-            x = block(x)
+            x = block(
+            x,
+            attention_mask
+        )
 
         # --------------------------------------------
         # Final Layer Normalization

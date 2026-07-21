@@ -67,7 +67,7 @@ class MultiHeadAttention(nn.Module):
             )
         )
 
-    def forward(self, x):
+    def forward(self, x, attention_mask=None):
 
         batch_size, sequence_length, _ = x.shape
 
@@ -116,6 +116,13 @@ class MultiHeadAttention(nn.Module):
             ],
             float("-inf")
         )
+        
+        if attention_mask is not None:
+
+            scores.masked_fill_(
+                ~attention_mask[:, None, None, :],
+                float("-inf")
+            )
 
         attention = F.softmax(
             scores,

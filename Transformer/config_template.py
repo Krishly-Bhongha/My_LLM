@@ -57,7 +57,7 @@ RANDOM_SEED = 42
 
 # Keep 0 on Windows initially.
 # Can increase later if data loading becomes a bottleneck.
-NUM_WORKERS = 2
+NUM_WORKERS = 0
 
 # Whether to discard the final incomplete batch
 DROP_LAST = False
@@ -76,7 +76,7 @@ DROPOUT = 0.1
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-MAX_CONTEXT = 256
+MAX_CONTEXT = 512
 
 FFN_MULTIPLIER = 2
 
@@ -94,7 +94,7 @@ GRAD_CLIP = 1.0
 
 USE_AMP = True
 
-USE_COMPILE = True
+USE_COMPILE = False
 
 SAVE_EVERY = 1
 

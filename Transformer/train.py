@@ -10,7 +10,6 @@ ROOT = Path(__file__).resolve().parent
 
 MODELS_DIR = ROOT / "Models"
 
-
 # ============================================================
 # SELECT MODEL VERSION
 # ============================================================
@@ -41,6 +40,7 @@ while True:
 
 import sys
 import importlib
+
 # ============================================================
 # IMPORT VERSION-SPECIFIC MODULES
 # ============================================================
@@ -77,11 +77,11 @@ model_module = importlib.import_module(
 )
 
 from model import TransformerModel
-
 from loader import (
     create_dataloaders,
     PAD_ID,
 )
+
 # ============================================================
 # CONFIG VARIABLES
 # ============================================================
@@ -111,6 +111,7 @@ if torch.cuda.is_available():
 # ============================================================
 # MODEL
 # ============================================================
+
 MODEL_FILE = MODEL_DIR / "model.pt"
 
 model = TransformerModel()
@@ -168,3 +169,145 @@ scaler = torch.amp.GradScaler(
         and DEVICE == "cuda"
     )
 )
+
+# ============================================================
+# DATALOADERS
+# ============================================================
+
+train_loader, val_loader = create_dataloaders()
+
+print(f"Training batches   : {len(train_loader)}")
+print(f"Validation batches : {len(val_loader)}")
+
+# ============================================================
+# TRAIN ONE EPOCH
+# ============================================================
+
+def train_epoch():
+
+    model.train()
+
+    total_loss = 0.0
+
+    for inputs, targets, attention_mask in train_loader:
+
+        attention_mask = attention_mask.to(
+            DEVICE,
+            non_blocking=True
+        )
+
+        inputs = inputs.to(DEVICE, non_blocking=True)
+        targets = targets.to(DEVICE, non_blocking=True)
+
+        optimizer.zero_grad(set_to_none=True)
+
+        with torch.autocast(
+            device_type=DEVICE,
+            enabled=USE_AMP
+        ):
+
+            logits = model(inputs, attention_mask=attention_mask)
+
+            loss = criterion(
+                logits.view(-1, logits.size(-1)),
+                targets.view(-1)
+            )
+
+        scaler.scale(loss).backward()
+
+        if config.GRAD_CLIP > 0:
+
+            scaler.unscale_(optimizer)
+
+            torch.nn.utils.clip_grad_norm_(
+                model.parameters(),
+                config.GRAD_CLIP
+            )
+
+        scaler.step(optimizer)
+
+        scaler.update()
+
+        total_loss += loss.item()
+
+    return total_loss / len(train_loader)
+
+# ============================================================
+# VALIDATE ONE EPOCH
+# ============================================================
+
+def validate():
+
+    model.eval()
+
+    total_loss = 0.0
+
+    with torch.no_grad():
+
+        for inputs, targets, attention_mask in val_loader:
+
+            inputs = inputs.to(
+                DEVICE,
+                non_blocking=True
+            )
+
+            targets = targets.to(
+                DEVICE,
+                non_blocking=True
+            )
+
+            attention_mask = attention_mask.to(
+                DEVICE,
+                non_blocking=True
+            )
+
+            with torch.autocast(
+                device_type=DEVICE,
+                enabled=USE_AMP
+            ):
+
+                logits = model(
+                    inputs,
+                    attention_mask=attention_mask
+                )
+
+                loss = criterion(
+                    logits.view(
+                        -1,
+                        logits.size(-1)
+                    ),
+                    targets.view(-1)
+                )
+
+            total_loss += loss.item()
+
+    return total_loss / len(val_loader)
+
+
+best_val_loss = float("inf")
+
+for epoch in range(config.NUM_EPOCHS):
+
+    train_loss = train_epoch()
+
+    val_loss = validate()
+
+    print(
+        f"Epoch {epoch + 1}/{config.NUM_EPOCHS}"
+        f" | Train Loss: {train_loss:.4f}"
+        f" | Val Loss: {val_loss:.4f}"
+    )
+
+    if val_loss < best_val_loss:
+
+        best_val_loss = val_loss
+
+        torch.save(
+            model.state_dict(),
+            MODEL_FILE
+        )
+
+        print(
+            f"✓ Validation improved. Model saved."
+            f" (Best Val Loss: {best_val_loss:.4f})"
+        )
