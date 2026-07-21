@@ -1,6 +1,6 @@
 from trainer import train_one_merge
 
-NUM_MERGES = 1000
+NUM_MERGES = 10000
 
 for i in range(NUM_MERGES):
 

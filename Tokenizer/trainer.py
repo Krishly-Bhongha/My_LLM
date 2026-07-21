@@ -15,6 +15,12 @@ def train_one_merge():
     corpus = load_json(TOKENIZED_FILE)
     vocab = load_json(VOCAB_FILE)
 
+    # Create merges.json if it doesn't exist
+    try:
+        merges = load_json(MERGES_FILE)
+    except FileNotFoundError:
+        merges = []
+
     pair_freq = count_pair_frequency(corpus)
 
     pair, freq = best_pair(pair_freq, MIN_PAIR_FREQ)
@@ -30,9 +36,23 @@ def train_one_merge():
     save_json(corpus, TOKENIZED_FILE)
 
     if new_token not in vocab:
+
         vocab[new_token] = len(vocab)
         save_json(vocab, VOCAB_FILE)
 
+        # Save merge history
+        merges.append([
+            pair[0],
+            pair[1]
+        ])
+
+        save_json(
+            merges,
+            MERGES_FILE
+        )
+
     return True
+
+
 if __name__ == "__main__":
     train_one_merge()

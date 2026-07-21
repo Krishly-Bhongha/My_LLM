@@ -1,8 +1,7 @@
 {
-    "num_tokens": 249266,
-    "vocab_size": 2692,
+    "num_tokens": 248701,
+    "vocab_size": 2749,
     "dtype": "long",
-
     "pad_id": 0,
     "bos_id": 1,
     "eos_id": 2

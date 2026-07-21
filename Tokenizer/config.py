@@ -10,6 +10,8 @@ VOCAB_FILE = DATA_DIR / "vocab.json"
 
 TOKEN_FREQ_FILE = DATA_DIR / "token_freq.json"
 
+MERGES_FILE = DATA_DIR / "merges.json"
+
 MIN_CHAR_FREQ = 20
 
 SPECIAL_TOKENS = [

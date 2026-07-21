@@ -66,9 +66,9 @@ DROP_LAST = False
 # MODEL CONFIGURATION
 # ============================================================
 
-EMBEDDING_DIM = 128
+EMBEDDING_DIM = 256
 
-NUM_HEADS = 1
+NUM_HEADS = 4
 
 NUM_LAYERS = 2
 
@@ -76,17 +76,17 @@ DROPOUT = 0.1
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-MAX_CONTEXT = 512
+MAX_CONTEXT = 1024
 
-FFN_MULTIPLIER = 2
+FFN_MULTIPLIER = 4
 
 # ============================================================
 # TRAINING CONFIGURATION
 # ============================================================
 
-NUM_EPOCHS = 20
+NUM_EPOCHS = 50
 
-LEARNING_RATE = 3e-4
+LEARNING_RATE = 1e-4
 
 WEIGHT_DECAY = 0.01
 
