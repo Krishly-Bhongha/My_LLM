@@ -36,7 +36,11 @@ def preprocess():
     metadata = {
         "num_tokens": int(len(ids)),
         "vocab_size": len(vocab),
-        "dtype": "long"
+        "dtype": "long",
+
+        "pad_id": vocab["<PAD>"],
+        "bos_id": vocab["<BOS>"],
+        "eos_id": vocab["<EOS>"]
     }
 
     with open(META_FILE, "w", encoding="utf8") as f:

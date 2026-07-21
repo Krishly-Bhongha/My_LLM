@@ -3,8 +3,10 @@ import json
 import torch
 from torch.utils.data import Dataset, DataLoader, random_split
 
-from config_template import (
-    VOCAB_FILE,
+from config import (
+    PAD_ID,
+    BOS_ID,
+    EOS_ID,
     TRAIN_IDS_FILE,
     BATCH_SIZE,
     BLOCK_SIZE,
@@ -13,22 +15,10 @@ from config_template import (
     RANDOM_SEED,
     NUM_WORKERS,
     DROP_LAST,
+    PIN_MEMORY,
+    PERSISTENT_WORKERS,
+    PREFETCH_FACTOR,
 )
-
-
-# ============================================================
-# LOAD VOCABULARY INFORMATION
-# ============================================================
-
-with open(VOCAB_FILE, "r", encoding="utf-8") as f:
-    VOCAB = json.load(f)
-
-
-VOCAB_SIZE = len(VOCAB)
-
-PAD_ID = VOCAB["<PAD>"]
-BOS_ID = VOCAB["<BOS>"]
-EOS_ID = VOCAB["<EOS>"]
 
 
 # ============================================================
@@ -334,6 +324,20 @@ def create_dataloaders():
 
         num_workers=NUM_WORKERS,
 
+        pin_memory=PIN_MEMORY,
+
+        persistent_workers=(
+            PERSISTENT_WORKERS
+            if NUM_WORKERS > 0
+            else False
+        ),
+
+        prefetch_factor=(
+            PREFETCH_FACTOR
+            if NUM_WORKERS > 0
+            else None
+        ),
+
         drop_last=DROP_LAST
     )
 
@@ -349,6 +353,20 @@ def create_dataloaders():
         collate_fn=collate_batch,
 
         num_workers=NUM_WORKERS,
+
+        pin_memory=PIN_MEMORY,
+
+        persistent_workers=(
+            PERSISTENT_WORKERS
+            if NUM_WORKERS > 0
+            else False
+        ),
+
+        prefetch_factor=(
+            PREFETCH_FACTOR
+            if NUM_WORKERS > 0
+            else None
+        ),
 
         drop_last=False
     )

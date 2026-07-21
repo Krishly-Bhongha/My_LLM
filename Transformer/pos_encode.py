@@ -2,7 +2,7 @@ import math
 import torch
 import torch.nn as nn
 
-from Transformer.config_template import (
+from config import (
     EMBEDDING_DIM,
     MAX_CONTEXT,
 )

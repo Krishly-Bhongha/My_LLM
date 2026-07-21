@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-from Transformer.config_template import (
+from config import (
     EMBEDDING_DIM,
     DROPOUT,
     FFN_MULTIPLIER,
@@ -46,3 +46,22 @@ class TransformerBlock(nn.Module):
                 DROPOUT
             )
         )
+
+
+    def forward(self, x):
+        # -------------------------------
+        # Multi-Head Attention
+        # -------------------------------
+
+        x = x + self.attention(
+            self.norm1(x)
+        )
+        # -------------------------------
+        # Feed Forward Network
+        # -------------------------------
+
+        x = x + self.feed_forward(
+            self.norm2(x)
+        )
+
+        return x

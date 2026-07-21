@@ -53,7 +53,41 @@ class TransformerModel(nn.Module):
 
     def forward(self, x):
 
-        pass
+        # --------------------------------------------
+        # Token Embeddings
+        # (B, S) -> (B, S, E)
+        # --------------------------------------------
+
+        x = self.embedding(x)
+
+        # --------------------------------------------
+        # Add Positional Encoding
+        # --------------------------------------------
+
+        x = self.position(x)
+
+        # --------------------------------------------
+        # Transformer Blocks
+        # --------------------------------------------
+
+        for block in self.blocks:
+
+            x = block(x)
+
+        # --------------------------------------------
+        # Final Layer Normalization
+        # --------------------------------------------
+
+        x = self.final_norm(x)
+
+        # --------------------------------------------
+        # Vocabulary Projection
+        # (B, S, E) -> (B, S, V)
+        # --------------------------------------------
+
+        logits = self.output(x)
+
+        return logits
 
 
 def initialize_parameters():

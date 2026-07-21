@@ -1,5 +1,9 @@
 {
     "num_tokens": 249266,
     "vocab_size": 2692,
-    "dtype": "long"
+    "dtype": "long",
+
+    "pad_id": 0,
+    "bos_id": 1,
+    "eos_id": 2
 }
