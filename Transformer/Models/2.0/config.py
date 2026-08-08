@@ -84,7 +84,7 @@ FFN_MULTIPLIER = 4
 # TRAINING CONFIGURATION
 # ============================================================
 
-NUM_EPOCHS = 50
+NUM_EPOCHS = 500
 
 LEARNING_RATE = 1e-4
 

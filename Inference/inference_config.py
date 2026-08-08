@@ -23,7 +23,7 @@ DEVICE = "cuda"
 # Default Model
 # -------------------------
 
-DEFAULT_MODEL_VERSION = "1.2"
+DEFAULT_MODEL_VERSION = "2.0"
 
 MODEL_FILENAME = "model.pt"
 CONFIG_FILENAME = "config.py"
