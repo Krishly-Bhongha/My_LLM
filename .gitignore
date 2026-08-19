@@ -1,8 +1,13 @@
 Data/preprocessed/*
+!Data/preprocessed/.gitkeep
 Data/raw/*
+!Data/raw/.gitkeep
 Data/tokenizer/*
+!Data/tokenizer/.gitkeep
 Transformer/Dataset/*
+!Transformer/Dataset/.gitkeep
 Transformer/Models/*
+!Transformer/Models/.gitkeep
 
 # Python cache
 __pycache__/
