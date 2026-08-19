@@ -1,8 +1,8 @@
-Data/preprocessed/
-Data/raw/
-Data/tokenizer/
-Transformer/Dataset/
-Transformer/Models/
+Data/preprocessed/*
+Data/raw/*
+Data/tokenizer/*
+Transformer/Dataset/*
+Transformer/Models/*
 
 # Python cache
 __pycache__/
