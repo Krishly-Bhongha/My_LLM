@@ -13,7 +13,7 @@ DATASET_DIR = Path("Transformer") / "Dataset"
 
 METADATA_FILE = DATASET_DIR / "metadata.json"
 
-TRAIN_IDS_FILE = DATASET_DIR / "train_ids.pt"
+TRAIN_IDS_FILE = DATASET_DIR / "Tiny_Stories_clean_ids.pt"
 
 # ============================================================
 # DATASET METADATA
@@ -35,7 +35,7 @@ EOS_ID = METADATA["eos_id"]
 # ============================================================
 
 # Number of sequences processed together
-BATCH_SIZE = 32
+BATCH_SIZE = 64
 
 # Minimum target context length.
 #
@@ -44,7 +44,7 @@ BATCH_SIZE = 32
 #
 # Therefore, actual sequence length may be greater
 # than BLOCK_SIZE.
-BLOCK_SIZE = 128
+BLOCK_SIZE = 256
 
 # Fraction of sequences used for training
 TRAIN_SPLIT = 0.9
@@ -70,13 +70,13 @@ EMBEDDING_DIM = 256
 
 NUM_HEADS = 4
 
-NUM_LAYERS = 2
+NUM_LAYERS = 4
 
 DROPOUT = 0.1
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-MAX_CONTEXT = 1024
+MAX_CONTEXT = 512
 
 FFN_MULTIPLIER = 4
 
@@ -84,9 +84,9 @@ FFN_MULTIPLIER = 4
 # TRAINING CONFIGURATION
 # ============================================================
 
-NUM_EPOCHS = 50
+NUM_EPOCHS = 20
 
-LEARNING_RATE = 1e-4
+LEARNING_RATE = 3e-4
 
 WEIGHT_DECAY = 0.01
 

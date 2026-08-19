@@ -1,0 +1,10 @@
+Data/preprocessed/
+Data/raw/
+Data/tokenizer/
+Transformer/Dataset/
+Transformer/Models/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
